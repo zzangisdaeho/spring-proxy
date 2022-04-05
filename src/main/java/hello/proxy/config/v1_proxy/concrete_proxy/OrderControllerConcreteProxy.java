@@ -8,8 +8,7 @@ public class OrderControllerConcreteProxy extends OrderControllerV2 {
     private final OrderControllerV2 target;
     private final LogTrace logTrace;
 
-    public OrderControllerConcreteProxy(OrderControllerV2 target, LogTrace
-            logTrace) {
+    public OrderControllerConcreteProxy(OrderControllerV2 target, LogTrace logTrace) {
         super(null); //프록시는 부모 객체의 기능을 사용하지 않기 때문에 super(null) 을 입력해도 된다.
         this.target = target;
         this.logTrace = logTrace;

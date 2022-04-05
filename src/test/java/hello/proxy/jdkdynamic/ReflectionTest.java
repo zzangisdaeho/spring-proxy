@@ -3,6 +3,9 @@ package hello.proxy.jdkdynamic;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 @Slf4j
 public class ReflectionTest {
     @Test
@@ -19,6 +22,32 @@ public class ReflectionTest {
         String result2 = target.callB(); //호출하는 메서드가 다름
         log.info("result={}", result2);
         //공통 로직2 종료
+    }
+
+    @Test
+    void reflection1() throws Exception{
+        //클래스 정보
+        Class<?> classHello = Class.forName("hello.proxy.jdkdynamic.ReflectionTest$Hello"); //클래스가 다른 클래스의 내부에 있을땐 $로 경로 표시
+
+        Hello target = new Hello();
+        //callA 메서드 정보
+        Method methodCallA = classHello.getMethod("callA");
+        dynamicCall(methodCallA, target);
+
+        //callB 메서드 정보
+        Method methodCallB = classHello.getMethod("callB");
+        dynamicCall(methodCallB, target);
+    }
+
+    private void dynamicCall(Method method, Object target) throws InvocationTargetException, IllegalAccessException {
+        log.info("start");
+        Object result = method.invoke(target);
+        log.info("result={}", result);
+    }
+
+    @Test
+    void reflection2() throws Exception{
+
     }
 
     @Slf4j
