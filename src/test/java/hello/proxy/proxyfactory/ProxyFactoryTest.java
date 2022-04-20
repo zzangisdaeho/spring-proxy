@@ -14,6 +14,8 @@ import org.springframework.aop.support.AopUtils;
 @Slf4j
 public class ProxyFactoryTest {
 
+    //proxyFactory.setProxyTargetClass(false); // true를 주면 인터페이스 기반이어도 CGLIB로 생성. 기본값 false
+
     @Test
     @DisplayName("인터페이스가 있으면 JDK 동적 프록시 사용")
     void interfaceProxy(){
@@ -57,10 +59,11 @@ public class ProxyFactoryTest {
     }
 
     @Test
-    @DisplayName("구체 클래스만 있으면 CGLIB 사용 JDK 동적 프록시 사용")
+    @DisplayName("구체 클래스만 있으면 CGLIB 사용시 CGLIB 기반 동적 프록시 사용")
     void concreteProxy(){
         ConcreteService target = new ConcreteService();
         ProxyFactory proxyFactory = new ProxyFactory(target);
+        proxyFactory.setProxyTargetClass(false); // true를 주면 인터페이스 기반이어도 CGLIB로 생성 기본값 false
         proxyFactory.addAdvice(new TimeAdvice());
         ConcreteService proxy = (ConcreteService) proxyFactory.getProxy();
 
