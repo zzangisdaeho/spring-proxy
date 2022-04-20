@@ -15,6 +15,8 @@ import org.springframework.aop.support.AopUtils;
 public class ProxyFactoryTest {
 
     //proxyFactory.setProxyTargetClass(false); // true를 주면 인터페이스 기반이어도 CGLIB로 생성. 기본값 false
+    //proxyFactory를 새로 생성하면 기본값이 false이다.
+    //springBoot에서 빈 초기화에 사용하는 proxyFactory는 기본값이 true로 설정되어있다.
 
     @Test
     @DisplayName("인터페이스가 있으면 JDK 동적 프록시 사용")
@@ -22,6 +24,7 @@ public class ProxyFactoryTest {
         ServiceInterface target = new ServiceImpl();
         ProxyFactory proxyFactory = new ProxyFactory(target);
         proxyFactory.addAdvice(new TimeAdvice());
+//        proxyFactory.setProxyTargetClass(true); // true이면 CGLIB 사용
         ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 
         log.info("targetClass = {}", target.getClass());
