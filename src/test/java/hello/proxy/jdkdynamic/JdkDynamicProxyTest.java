@@ -2,6 +2,7 @@ package hello.proxy.jdkdynamic;
 
 import hello.proxy.jdkdynamic.code.*;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Proxy;
@@ -10,6 +11,7 @@ import java.lang.reflect.Proxy;
 public class JdkDynamicProxyTest {
 
     @Test
+    @DisplayName("JDK 동적 프록시는 인터페이스 기반으로 프록시 생성 가능하다")
     void dynamicA() {
         AInterface target = new AImpl();
         TimeInvocationHandler handler = new TimeInvocationHandler(target);
@@ -22,8 +24,9 @@ public class JdkDynamicProxyTest {
     }
 
     @Test
+    @DisplayName("JDK 동적 프록시는 구현체를 주어도 인터페이스를 찾아 프록시 생성 가능하다")
     void dynamicA2() {
-        AInterface target = new AImpl();
+        AImpl target = new AImpl();
         TimeInvocationHandler handler = new TimeInvocationHandler(target);
         AInterface proxy = (AInterface) Proxy.newProxyInstance(AInterface.class.getClassLoader(), new Class[]{AInterface.class}, handler);
         proxy.notCall();
